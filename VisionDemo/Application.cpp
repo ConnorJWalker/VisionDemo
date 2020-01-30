@@ -16,10 +16,10 @@ bool Application::loadUserFile() {
 
 bool Application::shouldRunAgain() {
 	std::cout << "Would you like to try another photo (y/n)? ";
-	char* input;
+	std::string input;
 	std::cin >> input;
 
-	return std::strcmp("y", input);
+	return std::strcmp("y", input.c_str());
 }
 
 void Application::start() {
