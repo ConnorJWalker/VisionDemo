@@ -14,8 +14,20 @@ bool Application::loadUserFile() {
 	return true;
 }
 
+bool Application::shouldRunAgain() {
+	std::cout << "Would you like to try another photo (y/n)? ";
+	char* input;
+	std::cin >> input;
+
+	return std::strcmp("y", input);
+}
+
 void Application::start() {
 	while (true) {
 		loadUserFile();
+
+		if (!shouldRunAgain()) {
+			break;
+		}
 	}
 }

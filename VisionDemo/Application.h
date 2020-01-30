@@ -14,6 +14,7 @@ private:
 // Methods
 private:
 	bool loadUserFile();
+	bool shouldRunAgain();
 
 public:
 	void start();
