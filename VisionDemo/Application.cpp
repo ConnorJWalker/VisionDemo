@@ -26,6 +26,9 @@ void Application::start() {
 	while (true) {
 		loadUserFile();
 
+		std::vector<DetectedCard> cards = detector.findPlayingCards(image);
+		renderer.render(cards, image);
+
 		if (!shouldRunAgain()) {
 			break;
 		}
