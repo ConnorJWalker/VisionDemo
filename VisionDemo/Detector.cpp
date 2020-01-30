@@ -27,7 +27,10 @@ std::vector<DetectedCard> Detector::findPlayingCards(cv::Mat image) {
 		cv::approxPolyDP(contour, contoursPoly, 3, true);
 
 		cv::Rect card = cv::boundingRect(contoursPoly);
-		detectedCards.push_back(addCardData(card));
+
+		if (card.width > 100) {
+			detectedCards.push_back(addCardData(card));
+		}
 	}
 
 	return detectedCards;
