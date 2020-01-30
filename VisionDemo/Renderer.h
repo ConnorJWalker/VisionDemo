@@ -14,7 +14,6 @@ private:
 private:
 
 public:
-	Renderer();
 	~Renderer();
 	void render(std::vector<DetectedCard> cards, cv::Mat image);
 };

@@ -1,9 +1,5 @@
 #include "Renderer.h"
 
-Renderer::Renderer() {
-	cv::namedWindow(windowName);
-}
-
 Renderer::~Renderer() {
 	cv::destroyWindow(windowName);
 }
