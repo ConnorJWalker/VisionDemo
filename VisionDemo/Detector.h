@@ -5,7 +5,7 @@
 
 struct DetectedCard {
 	cv::Point2i center;
-	cv::Rect object;
+	cv::Rect cardRectangle;
 };
 
 class Detector
