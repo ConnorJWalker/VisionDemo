@@ -4,10 +4,9 @@ bool Application::loadUserFile() {
 	std::cout << "Enter the filename or filepath of image you want to search: ";
 	std::cin >> imageLocation;
 
-	image = cv::Mat();
 	image = cv::imread(imageLocation);
-	if (!image.data) {
-		std::cout << "\n\nCould not find image " << imageLocation << std::endl;
+	if (image.empty()) {
+		std::cout << "Could not find image " << imageLocation << std::endl;
 		return false;
 	}
 
@@ -19,14 +18,16 @@ bool Application::shouldRunAgain() {
 	std::string input;
 	std::cin >> input;
 
-	return std::strcmp("y", input.c_str());
+	return !(bool)std::strcmp("y", input.c_str());
 }
 
 void Application::start() {
 	while (true) {
-		loadUserFile();
+		if (!loadUserFile()) {
+			continue;
+		}
 
-		std::vector<DetectedCard> cards = detector.findPlayingCards(image);
+		std::vector<DetectedCard> cards = detector.findPlayingCards(image.clone());
 		renderer.render(cards, image);
 
 		if (!shouldRunAgain()) {
