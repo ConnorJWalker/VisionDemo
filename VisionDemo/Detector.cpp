@@ -15,7 +15,7 @@ std::vector<DetectedCard> Detector::findPlayingCards(cv::Mat image) {
 	cv::cvtColor(image, greyscaleImage, cv::COLOR_BGR2GRAY);
 
 	cv::Mat cannyOutput;
-	int threshold = 130;
+	int threshold = 60;
 	cv::Canny(greyscaleImage, cannyOutput, threshold, threshold * 2);
 
 	std::vector<std::vector<cv::Point>> contours;
@@ -28,7 +28,7 @@ std::vector<DetectedCard> Detector::findPlayingCards(cv::Mat image) {
 
 		cv::Rect card = cv::boundingRect(contoursPoly);
 
-		if (card.width > 100) {
+		if (card.width > 100 && card.height > 200) {
 			detectedCards.push_back(addCardData(card));
 		}
 	}
