@@ -17,10 +17,16 @@ private:
 	Detector detector;
 	Renderer renderer;
 
+	int thresholdSlider;
+	const int thresholdSliderMaxValue = 300;
+	double threshold = 60;
+
 // Methods
 private:
 	bool loadUserFile();
 	bool shouldRunAgain();
+
+	static void onThresholdSliderChange(int, void*);
 
 public:
 	void start();

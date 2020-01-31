@@ -19,6 +19,6 @@ private:
 	DetectedCard addCardData(cv::Rect card);
 
 public:
-	std::vector<DetectedCard> findPlayingCards(cv::Mat image);
+	std::vector<DetectedCard> findPlayingCards(cv::Mat image, double threshold = 60);
 };
 

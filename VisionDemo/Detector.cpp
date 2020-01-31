@@ -21,13 +21,12 @@ DetectedCard Detector::addCardData(cv::Rect card) {
  *  @Returns vector of DetectedCard structs (found in Detector.h) each element contains
  *  a rectangle object around the cards location as well as its center X, Y value 
  */
-std::vector<DetectedCard> Detector::findPlayingCards(cv::Mat image) {
+std::vector<DetectedCard> Detector::findPlayingCards(cv::Mat image, double threshold) {
 	// Create a greyscale version of the image and save it to a new image in memory
 	cv::Mat greyscaleImage;
 	cv::cvtColor(image, greyscaleImage, cv::COLOR_BGR2GRAY);
 
 	// Run the canny edge detector algorithm and save it in memory to the cannyOutput image
-	int threshold = 60;
 	cv::Canny(greyscaleImage, cannyOutput, threshold, threshold * 2);
 
 	// Find the cannyOutput image
