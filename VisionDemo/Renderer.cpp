@@ -1,7 +1,7 @@
 #include "Renderer.h"
 
 Renderer::~Renderer() {
-	cv::destroyWindow(windowName);
+	cv::destroyAllWindows();
 }
 
 // This function is used to draw all of the rectanghles onto the image and then
@@ -14,6 +14,11 @@ void Renderer::render(std::vector<DetectedCard> cards, cv::Mat image) {
 		cv::rectangle(image, card.cardRectangle, colour);
 	}
 
-	cv::resize(image, image, cv::Size(), 0.5, 0.5);
+	cv::resize(image, image, cv::Size(), scaleX, scaleY);
 	cv::imshow(windowName, image);
+}
+
+void Renderer::renderCanny(std::vector<DetectedCard> cards, cv::Mat cannyImage) {
+	cv::resize(cannyImage, cannyImage, cv::Size(), scaleX, scaleY);
+	cv::imshow(cannyWindow, cannyImage);
 }

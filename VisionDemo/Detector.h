@@ -10,6 +10,10 @@ struct DetectedCard {
 
 class Detector
 {
+// Properties
+public:
+	cv::Mat cannyOutput;
+
 // Methods
 private:
 	DetectedCard addCardData(cv::Rect card);

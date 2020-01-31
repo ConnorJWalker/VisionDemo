@@ -30,6 +30,7 @@ void Application::start() {
 		////////////////// CORE APPLICATION HERE ////////////////// 
 		std::vector<DetectedCard> cards = detector.findPlayingCards(image.clone());
 		renderer.render(cards, image.clone());
+		renderer.renderCanny(cards, detector.cannyOutput);
 		///////////////////////////////////////////////////////////
 
 		while (true) {

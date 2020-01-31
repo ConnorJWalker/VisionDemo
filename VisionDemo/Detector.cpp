@@ -27,7 +27,6 @@ std::vector<DetectedCard> Detector::findPlayingCards(cv::Mat image) {
 	cv::cvtColor(image, greyscaleImage, cv::COLOR_BGR2GRAY);
 
 	// Run the canny edge detector algorithm and save it in memory to the cannyOutput image
-	cv::Mat cannyOutput;
 	int threshold = 60;
 	cv::Canny(greyscaleImage, cannyOutput, threshold, threshold * 2);
 
