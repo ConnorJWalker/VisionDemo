@@ -1,13 +1,18 @@
 # Card Detector Test
+
 This project is split into 2 branches, simple and master
 
 #### Simple
 
-This branch containes just the basic implementation to show off the basic idea of how it works. This branch is likely to stay the same until a new, better, approach is found. 
+This branch contains just the basic implementation to show off the basic idea of how it works. This branch is likely to stay the same until a new, better, approach is found. 
+
+**_This project is nowhere near completed and will be updated as we find better soloutions. This is just to give an idea of progress and how the system will work / what data we can collect_**
 
 #### Master
 
-This is the main branch and will have extra features to test better ways of detecting cars, making the code more complicated. Use this branch if you want to test different implementations to see if they work better.
+This is the main branch and will have extra features to test better ways of detecting cards, making the code more complicated. Use this branch if you want to test different implementations to see if they work better.
+
+Feel free to make a pull request if a better method or fix to any problems is found
 
 ## Getting Started
 

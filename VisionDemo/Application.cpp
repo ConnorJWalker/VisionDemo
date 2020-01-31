@@ -27,9 +27,11 @@ void Application::start() {
 			continue;
 		}
 
+		////////////////// CORE APPLICATION HERE ////////////////// 
 		std::vector<DetectedCard> cards = detector.findPlayingCards(image.clone());
 		renderer.render(cards, image.clone());
-		
+		///////////////////////////////////////////////////////////
+
 		while (true) {
 			if (cv::waitKey(30) >= 0) break;
 		}
