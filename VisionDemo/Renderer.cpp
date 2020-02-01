@@ -27,11 +27,23 @@ void Renderer::renderOutline(std::vector<DetectedCard> cards, int width, int hei
 	cv::Mat background(width, height, CV_8UC3, cv::Scalar(0, 0, 0));
 
 	cv::Scalar white(255, 255, 255);
-	cv::Scalar blue(255, 0, 0);
+	cv::Scalar blue(255, 100, 100);
 
 	for (size_t i = 0; i < cards.size(); i++) {
 		cv::rectangle(background, cards[i].cardRectangle, white);
-		cv::circle(background, cards[i].center, 5, blue);
+
+		std::string coords = "X: " + std::to_string(cards[i].center.x) + " Y: " + std::to_string(cards[i].center.y);
+		cv::putText(
+			background,
+			coords,
+			cv::Point(
+				cards[i].center.x - (cv::getTextSize(coords, cv::FONT_HERSHEY_SIMPLEX, 1, 1, 0).width / 2),
+				cards[i].center.y
+			),
+			cv::FONT_HERSHEY_SIMPLEX,
+			1, 
+			blue
+		);
 
 		cv::Point textOrigin(cards[i].cardRectangle.tl().x, cards[i].cardRectangle.tl().y - 10);
 		cv::putText(background, std::to_string(i), textOrigin, cv::FONT_HERSHEY_SIMPLEX, 1.5, white);
