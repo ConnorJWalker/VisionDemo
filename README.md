@@ -38,3 +38,7 @@ Demo Photo Output
 Demo Canny View Output
 
 ![Demo Canny Output](https://i.imgur.com/MSdy7dx.png "Demo canny output")
+
+Demo of Standard View vs Outline View
+
+![Standard vs Outline](https://i.imgur.com/kJSsWM4.png "Standard view vs outline view")
