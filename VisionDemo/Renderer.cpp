@@ -32,6 +32,9 @@ void Renderer::renderOutline(std::vector<DetectedCard> cards, int width, int hei
 	for (size_t i = 0; i < cards.size(); i++) {
 		cv::rectangle(background, cards[i].cardRectangle, white);
 		cv::circle(background, cards[i].center, 5, blue);
+
+		cv::Point textOrigin(cards[i].cardRectangle.tl().x, cards[i].cardRectangle.tl().y - 10);
+		cv::putText(background, std::to_string(i), textOrigin, cv::FONT_HERSHEY_SIMPLEX, 1.5, white);
 	}
 
 	cv::resize(background, background, cv::Size(), scaleX, scaleY);
