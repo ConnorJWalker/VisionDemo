@@ -29,6 +29,7 @@ void Application::onThresholdSliderChange(int, void* object) {
 	std::vector<DetectedCard> cards = app->detector.findPlayingCards(app->image.clone(), app->threshold);
 	app->renderer.render(cards, app->image.clone());
 	app->renderer.renderCanny(cards, app->detector.cannyOutput);
+	app->renderer.renderOutline(cards, app->image.rows, app->image.cols);
 }
 
 void Application::start() {
@@ -41,6 +42,7 @@ void Application::start() {
 		std::vector<DetectedCard> cards = detector.findPlayingCards(image.clone());
 		renderer.render(cards, image.clone());
 		renderer.renderCanny(cards, detector.cannyOutput);
+		renderer.renderOutline(cards, image.rows, image.cols);
 		///////////////////////////////////////////////////////////
 
 		cv::createTrackbar("Threshold", renderer.cannyWindow, &thresholdSlider, thresholdSliderMaxValue, onThresholdSliderChange, this);

@@ -22,3 +22,18 @@ void Renderer::renderCanny(std::vector<DetectedCard> cards, cv::Mat cannyImage) 
 	cv::resize(cannyImage, cannyImage, cv::Size(), scaleX, scaleY);
 	cv::imshow(cannyWindow, cannyImage);
 }
+
+void Renderer::renderOutline(std::vector<DetectedCard> cards, int width, int height) {
+	cv::Mat background(width, height, CV_8UC3, cv::Scalar(0, 0, 0));
+
+	cv::Scalar white(255, 255, 255);
+	cv::Scalar blue(255, 0, 0);
+
+	for (size_t i = 0; i < cards.size(); i++) {
+		cv::rectangle(background, cards[i].cardRectangle, white);
+		cv::circle(background, cards[i].center, 5, blue);
+	}
+
+	cv::resize(background, background, cv::Size(), scaleX, scaleY);
+	cv::imshow(outlineWindow, background);
+}
