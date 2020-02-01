@@ -7,14 +7,20 @@
 class Renderer
 {
 // Properties
-private:
+private:	
+	// Name of window the original image will be displayed in
 	std::string windowName = "Simple Card Detection";
+	// Name of windown the outlines and meta data will be displyed in
 	std::string outlineWindow = "Outline of Card Detection";
 
+	// Amount to scale images X by to make it fit on displays better
 	const float scaleX = 0.5f;
+	// Amount to scale images Y by to make it fit on displays better
 	const float scaleY = 0.5f;
 
 public:
+	// Name of window the canny edge detection output will be displayed in
+	// Public so threshold trackbar can be added
 	std::string cannyWindow = "Canny Card Detection Result";
 
 // Methods

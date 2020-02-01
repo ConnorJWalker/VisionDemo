@@ -34,12 +34,6 @@ bool Detector::isCardValid(cv::Rect card, std::vector<DetectedCard> detectedCard
 	return true;
 }
 
-/*
- *	Uses the canny edge detection to find playing cards in provided image
- *  @Param image - the image loaded in from the file at Application::loadUserFile
- *  @Returns vector of DetectedCard structs (found in Detector.h) each element contains
- *  a rectangle object around the cards location as well as its center X, Y value 
- */
 std::vector<DetectedCard> Detector::findPlayingCards(cv::Mat image, double threshold) {
 	cv::Mat greyscaleImage;
 	cv::cvtColor(image, greyscaleImage, cv::COLOR_BGR2GRAY);
