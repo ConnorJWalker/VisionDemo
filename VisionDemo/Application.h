@@ -27,6 +27,7 @@ private:
 	bool shouldRunAgain();
 
 	static void onThresholdSliderChange(int, void*);
+	void run();
 
 public:
 	void start();

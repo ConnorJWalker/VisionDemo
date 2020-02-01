@@ -19,7 +19,6 @@ public:
 
 // Methods
 public:
-	~Renderer();
 	void render(std::vector<DetectedCard> cards, cv::Mat image);
 	void renderCanny(std::vector<DetectedCard> cards, cv::Mat cannyImage);
 	void renderOutline(std::vector<DetectedCard> cards, int width, int height);

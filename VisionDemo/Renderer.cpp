@@ -1,9 +1,5 @@
 #include "Renderer.h"
 
-Renderer::~Renderer() {
-	cv::destroyAllWindows();
-}
-
 // This function is used to draw all of the rectanghles onto the image and then
 // display it in a named window. In the final project this would not be needed,
 // this is just so we can see what is going on
