@@ -17,6 +17,7 @@ public:
 // Methods
 private:
 	DetectedCard addCardData(cv::Rect card);
+	bool isCardValid(cv::Rect card, std::vector<DetectedCard> detectedCards);
 
 public:
 	std::vector<DetectedCard> findPlayingCards(cv::Mat image, double threshold = 60);

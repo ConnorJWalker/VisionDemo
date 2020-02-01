@@ -15,6 +15,27 @@ DetectedCard Detector::addCardData(cv::Rect card) {
 	};
 }
 
+bool Detector::isCardValid(cv::Rect card, std::vector<DetectedCard> detectedCards) {
+	// Make sure the "card" is a reasonable width and height to avoid
+	// noise being detected
+	if (card.width > 100 && card.height > 200) {
+		if (detectedCards.size() >= 1) {
+			// Make sure that the card is at least 10px away from the last
+			int distanceX = abs(card.tl().x - detectedCards[detectedCards.size() - 1].cardRectangle.tl().x);
+			int distanceY = abs(card.tl().y - detectedCards[detectedCards.size() - 1].cardRectangle.tl().y);
+
+			if (distanceX < 50 && distanceY < 50) {
+				return false;
+			}
+		}
+	}
+	else {
+		return false;
+	}
+
+	return true;
+}
+
 /*
  *	Uses the canny edge detection to find playing cards in provided image
  *  @Param image - the image loaded in from the file at Application::loadUserFile
@@ -42,7 +63,7 @@ std::vector<DetectedCard> Detector::findPlayingCards(cv::Mat image, double thres
 
 		cv::Rect card = cv::boundingRect(contoursPoly);
 
-		if (card.width > 100 && card.height > 200) {
+		if (isCardValid(card, detectedCards)) {
 			detectedCards.push_back(addCardData(card));
 		}
 	}
