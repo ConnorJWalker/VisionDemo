@@ -33,7 +33,7 @@ void Renderer::renderOutline(std::vector<DetectedCard> cards, int width, int hei
 		std::vector<std::string> renderData = {
 			"X: " + std::to_string(cards[i].center.x) + " Y: " + std::to_string(cards[i].center.y),
 			"Colour: " + colours[(int)cards[i].colour],
-			"Colour Percentage: " + std::to_string(cards[i].colourPercentage)
+			"Colour: " + std::to_string(cards[i].colourPercentage * 100) + "%"
 		};
 
 		for (size_t j = 0; j < renderData.size(); j++) {

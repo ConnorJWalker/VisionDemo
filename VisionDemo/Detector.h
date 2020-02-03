@@ -11,7 +11,7 @@ struct DetectedCard {
 	cv::Point2i center;
 	cv::Rect cardRectangle;
 	Colour colour;
-	int colourPercentage;
+	double colourPercentage;
 };
 
 class Detector
@@ -42,7 +42,7 @@ private:
 	 */
 	bool isCardValid(cv::Rect card, std::vector<DetectedCard> detectedCards);
 
-	Colour detectCardColour(cv::Rect card, cv::Mat image, int& percentage);
+	Colour detectCardColour(cv::Rect card, cv::Mat image, double& percentage);
 
 public:
 	/*

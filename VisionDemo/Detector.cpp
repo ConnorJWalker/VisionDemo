@@ -6,7 +6,7 @@
  *  elsewere in the program
  */
 DetectedCard Detector::addCardData(cv::Rect card, cv::Mat image) {
-	int percentage = 0;
+	double percentage = 0;
 
 	return {
 		cv::Point2i(
@@ -38,20 +38,20 @@ bool Detector::isCardValid(cv::Rect card, std::vector<DetectedCard> detectedCard
 	return true;
 }
 
-Colour Detector::detectCardColour(cv::Rect card, cv::Mat image, int& percentage) {
+Colour Detector::detectCardColour(cv::Rect card, cv::Mat image, double& percentage) {
 	cv::Mat roi(image, card);
 	cv::cvtColor(roi, roi, cv::COLOR_BGR2HSV);
 
-	int redPrecentage, blackPercentage;
+	double redPrecentage, blackPercentage;
 
-	auto colourDetection = [](int& percentage, cv::Mat roi, std::vector<int> upperBound, std::vector<int> lowerBound) {
+	auto colourDetection = [](double& percentage, cv::Mat roi, std::vector<int> upperBound, std::vector<int> lowerBound) {
 		cv::Mat mask;
 		cv::inRange(roi, lowerBound, upperBound, mask);
 		
 		int imageSize = mask.rows * mask.cols;
 		cv::threshold(mask, mask, 120, -1, cv::THRESH_TOZERO);
 
-		percentage = 1 - (imageSize - cv::countNonZero(mask)) / imageSize;
+		percentage = 1 - (imageSize - cv::countNonZero(mask)) / (double )imageSize;
 	};
 
 	std::vector<int> lowerRed = { 0, 120, 70 };
