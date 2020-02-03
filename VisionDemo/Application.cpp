@@ -29,10 +29,17 @@ void Application::onThresholdSliderChange(int, void* object) {
 }
 
 void Application::run() {
+	auto start = std::chrono::high_resolution_clock::now();
+
 	std::vector<DetectedCard> cards = detector.findPlayingCards(image.clone(), threshold);
 	renderer.render(cards, image.clone());
 	renderer.renderCanny(cards, detector.cannyOutput);
 	renderer.renderOutline(cards, image.rows, image.cols);
+
+	auto finish = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
+
+	std::cout << "Execution finished in " << duration << " milliseconds" << std::endl;
 }
 
 void Application::start() {
