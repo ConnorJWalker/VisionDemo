@@ -25,21 +25,33 @@ void Renderer::renderOutline(std::vector<DetectedCard> cards, int width, int hei
 	cv::Scalar white(255, 255, 255);
 	cv::Scalar blue(255, 100, 100);
 
+	std::string colours[2] = { "Red", "Black" };
+
 	for (size_t i = 0; i < cards.size(); i++) {
 		cv::rectangle(background, cards[i].cardRectangle, white);
 
-		std::string coords = "X: " + std::to_string(cards[i].center.x) + " Y: " + std::to_string(cards[i].center.y);
-		cv::putText(
-			background,
-			coords,
-			cv::Point(
-				cards[i].center.x - (cv::getTextSize(coords, cv::FONT_HERSHEY_SIMPLEX, 1, 1, 0).width / 2),
-				cards[i].center.y
-			),
-			cv::FONT_HERSHEY_SIMPLEX,
-			1, 
-			blue
-		);
+		std::vector<std::string> renderData = {
+			"X: " + std::to_string(cards[i].center.x) + " Y: " + std::to_string(cards[i].center.y),
+			"Colour: " + colours[(int)cards[i].colour],
+			"Colour Percentage: " + std::to_string(cards[i].colourPercentage)
+		};
+
+		for (size_t j = 0; j < renderData.size(); j++) {
+			cv::Size size = cv::getTextSize(renderData[j], cv::FONT_HERSHEY_SIMPLEX, 1, 1, 0);
+			int buffer = 15;
+
+			cv::putText(
+				background,
+				renderData[j],
+				cv::Point(
+					cards[i].center.x - (size.width / 2),
+					cards[i].center.y - ((size.height * renderData.size() / 2) - (j * (size.height + buffer)))
+				),
+				cv::FONT_HERSHEY_SIMPLEX,
+				1, 
+				blue
+			);
+		}
 
 		cv::Point textOrigin(cards[i].cardRectangle.tl().x, cards[i].cardRectangle.tl().y - 10);
 		cv::putText(background, std::to_string(i), textOrigin, cv::FONT_HERSHEY_SIMPLEX, 1.5, white);
