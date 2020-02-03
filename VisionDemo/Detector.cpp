@@ -27,12 +27,25 @@ bool Detector::isCardValid(cv::Rect card, std::vector<DetectedCard> detectedCard
 	// Make sure that the card is at least 10px away from the last to prevent cards being counted
 	// multiple times
 	if (detectedCards.size() >= 1) {
-		int distanceX = abs(card.tl().x - detectedCards[detectedCards.size() - 1].cardRectangle.tl().x);
-		int distanceY = abs(card.tl().y - detectedCards[detectedCards.size() - 1].cardRectangle.tl().y);
+		int previous = detectedCards.size() - 1;
+		int distanceX = abs(card.tl().x - detectedCards[previous].cardRectangle.tl().x);
+		int distanceY = abs(card.tl().y - detectedCards[previous].cardRectangle.tl().y);
 
 		if (distanceX < 50 && distanceY < 50) {
 			return false;
 		}
+
+		// Make sure that the new card is not inside the previous card
+		cv::Rect previousCard = detectedCards[previous].cardRectangle;
+		int previousWidth = previousCard.width;
+		int previousHeight = previousCard.height;
+
+		bool x = card.tl().x > previousCard.tl().x &&
+			card.tl().x < previousCard.tl().x + previousWidth;
+		bool y = card.br().y < previousCard.br().y &&
+			card.br().y > previousCard.br().y - previousHeight;
+
+		return !(x && y);
 	}
 
 	return true;
