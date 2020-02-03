@@ -3,9 +3,15 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 
+enum class Colour {
+	RED, BLACK
+};
+
 struct DetectedCard {
 	cv::Point2i center;
 	cv::Rect cardRectangle;
+	Colour colour;
+	int colourPercentage;
 };
 
 class Detector
@@ -24,7 +30,7 @@ private:
 	 * @Param card - a cv::Rect object in the location where the detector found a card
 	 * @Retuns a DetectedCard struct containing passed in rect and additional data
 	 */
-	DetectedCard addCardData(cv::Rect card);
+	DetectedCard addCardData(cv::Rect card, cv::Mat image);
 
 	/* 
 	 * Tests to see if detected card could actually be a card or a bit of noise / background
@@ -35,6 +41,8 @@ private:
 	 * card from
 	 */
 	bool isCardValid(cv::Rect card, std::vector<DetectedCard> detectedCards);
+
+	Colour detectCardColour(cv::Rect card, cv::Mat image, int& percentage);
 
 public:
 	/*

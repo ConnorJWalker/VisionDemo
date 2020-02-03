@@ -5,13 +5,17 @@
  *  This is just used to add extra data to the card that could be useful
  *  elsewere in the program
  */
-DetectedCard Detector::addCardData(cv::Rect card) {
+DetectedCard Detector::addCardData(cv::Rect card, cv::Mat image) {
+	int percentage = 0;
+
 	return {
 		cv::Point2i(
 			card.tl().x + (card.width / 2),
 			card.br().y - (card.height / 2)
 		),
-		card
+		card,
+		detectCardColour(card, image, percentage),
+		percentage
 	};
 }
 
@@ -34,6 +38,39 @@ bool Detector::isCardValid(cv::Rect card, std::vector<DetectedCard> detectedCard
 	return true;
 }
 
+Colour Detector::detectCardColour(cv::Rect card, cv::Mat image, int& percentage) {
+	cv::Mat roi(image, card);
+	cv::cvtColor(roi, roi, cv::COLOR_BGR2HSV);
+
+	int redPrecentage, blackPercentage;
+
+	auto colourDetection = [](int& percentage, cv::Mat roi, std::vector<int> upperBound, std::vector<int> lowerBound) {
+		cv::Mat mask;
+		cv::inRange(roi, lowerBound, upperBound, mask);
+		
+		int imageSize = mask.rows * mask.cols;
+		cv::threshold(mask, mask, 120, -1, cv::THRESH_TOZERO);
+
+		percentage = 1 - (imageSize - cv::countNonZero(mask)) / imageSize;
+	};
+
+	std::vector<int> lowerRed = { 0, 120, 70 };
+	std::vector<int> upperRed = { 10, 255, 255 };
+	colourDetection(redPrecentage, roi, upperRed, lowerRed);
+
+	std::vector<int> lowerBlack = { 0, 0, 0 };
+	std::vector<int> upperBlack = { 180, 255, 125 };
+	colourDetection(blackPercentage, roi, upperBlack, lowerBlack);
+
+	if (redPrecentage > blackPercentage) {
+		percentage = redPrecentage;
+		return Colour::RED;
+	}
+
+	percentage = blackPercentage;
+	return Colour::BLACK;
+}
+
 std::vector<DetectedCard> Detector::findPlayingCards(cv::Mat image, double threshold) {
 	cv::Mat greyscaleImage;
 	cv::cvtColor(image, greyscaleImage, cv::COLOR_BGR2GRAY);
@@ -52,7 +89,7 @@ std::vector<DetectedCard> Detector::findPlayingCards(cv::Mat image, double thres
 		cv::Rect card = cv::boundingRect(contoursPoly);
 
 		if (isCardValid(card, detectedCards)) {
-			detectedCards.push_back(addCardData(card));
+			detectedCards.push_back(addCardData(card, image));
 		}
 	}
 
