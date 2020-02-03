@@ -40,12 +40,12 @@ bool Detector::isCardValid(cv::Rect card, std::vector<DetectedCard> detectedCard
 		int previousWidth = previousCard.width;
 		int previousHeight = previousCard.height;
 
-		bool x = card.tl().x > previousCard.tl().x &&
+		bool isXInside = card.tl().x > previousCard.tl().x &&
 			card.tl().x < previousCard.tl().x + previousWidth;
-		bool y = card.br().y < previousCard.br().y &&
+		bool isYInside = card.br().y < previousCard.br().y &&
 			card.br().y > previousCard.br().y - previousHeight;
 
-		return !(x && y);
+		return !(isXInside && isYInside);
 	}
 
 	return true;

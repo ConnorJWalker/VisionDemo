@@ -42,6 +42,16 @@ private:
 	 */
 	bool isCardValid(cv::Rect card, std::vector<DetectedCard> detectedCards);
 
+	/*
+	 * Used to work out wether the card has more black or red inside it as well as the
+	 * percentage of each
+	 *
+	 * @Returns the colour of the card in enum form
+	 * @Param card - cv::Rect around a valid detected card
+	 * @Param image - the image loaded in from the file at Application::loadUserFile
+	 * @Parma percentage - reference to percentage variable, will be filled with the
+	 * percentage of the detected colour
+	 */
 	Colour detectCardColour(cv::Rect card, cv::Mat image, double& percentage);
 
 public:
