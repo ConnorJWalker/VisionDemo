@@ -49,7 +49,7 @@ void Application::start() {
 		}
 
 		run();
-		cv::createTrackbar("Threshold", renderer.cannyWindow, &thresholdSlider, thresholdSliderMaxValue, onThresholdSliderChange, this);
+		cv::createTrackbar("Threshold", renderer.outlineWindow, &thresholdSlider, thresholdSliderMaxValue, onThresholdSliderChange, this);
 
 		while (true) {
 			if (cv::waitKey(30) >= 0) break;

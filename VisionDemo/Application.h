@@ -23,7 +23,7 @@ private:
 
 	int thresholdSlider;
 	const int thresholdSliderMaxValue = 300;
-	double threshold = 60;
+	double threshold = 120;
 
 // Methods
 private:
