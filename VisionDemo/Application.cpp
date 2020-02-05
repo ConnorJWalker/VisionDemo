@@ -13,8 +13,8 @@ bool Application::loadUserFile() {
 	return true;
 }
 
-bool Application::shouldRunAgain() {
-	std::cout << "Would you like to try another photo (y/n)? ";
+bool Application::getBoolConsoleInput(std::string question) {
+	std::cout << question << " (y/n) ";
 	std::string input;
 	std::cin >> input;
 
@@ -29,35 +29,55 @@ void Application::onThresholdSliderChange(int, void* object) {
 }
 
 void Application::run() {
-	auto start = std::chrono::high_resolution_clock::now();
+	if (!shouldUseCamera) {
+		auto start = std::chrono::high_resolution_clock::now();
+
+		std::vector<DetectedCard> cards = detector.findPlayingCards(image.clone(), threshold);
+		renderer.render(cards, image.clone());
+		renderer.renderCanny(cards, detector.cannyOutput);
+		renderer.renderOutline(cards, image.rows, image.cols);
+
+		auto finish = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
+
+		std::cout << "Execution finished in " << duration << " milliseconds" << std::endl;
+
+		return;
+	}
+
+	camera >> image;
 
 	std::vector<DetectedCard> cards = detector.findPlayingCards(image.clone(), threshold);
 	renderer.render(cards, image.clone());
-	renderer.renderCanny(cards, detector.cannyOutput);
 	renderer.renderOutline(cards, image.rows, image.cols);
-
-	auto finish = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(finish - start).count();
-
-	std::cout << "Execution finished in " << duration << " milliseconds" << std::endl;
 }
 
 void Application::start() {
 	while (true) {
-		if (!loadUserFile()) {
-			continue;
+		shouldUseCamera = getBoolConsoleInput("Would you like to use your camera");
+		if (shouldUseCamera) {
+			camera = cv::VideoCapture(0);
+		}
+		else {
+			if (!loadUserFile()) {
+				continue;
+			}
 		}
 
 		run();
 		cv::createTrackbar("Threshold", renderer.outlineWindow, &thresholdSlider, thresholdSliderMaxValue, onThresholdSliderChange, this);
 
 		while (true) {
+			if (shouldUseCamera) {
+				run();
+			}
+
 			if (cv::waitKey(30) >= 0) break;
 		}
 
 		cv::destroyAllWindows();
 
-		if (!shouldRunAgain()) {
+		if (!getBoolConsoleInput("Would you like to run again")) {
 			break;
 		}
 	}	

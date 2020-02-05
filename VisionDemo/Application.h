@@ -25,6 +25,10 @@ private:
 	const int thresholdSliderMaxValue = 300;
 	double threshold = 120;
 
+	bool shouldUseCamera;
+
+	cv::VideoCapture camera;
+
 // Methods
 private:
 
@@ -37,12 +41,12 @@ private:
 	bool loadUserFile();
 
 	/*
-	 * Askes the user if they want to run the application again and gets their 
-	 * response
+	 * Displays a yes no question to the user and returns bool response
 	 * 
-	 * @ Returns true if they want to run again, false if not
+	 * @ Returns true if they enter yes
+	 * @ Param question - string containing question to ask user
 	 */
-	bool shouldRunAgain();
+	bool getBoolConsoleInput(std::string question);
 
 	/*
 	 * Callback function for trackbar changes. Sets the new threshold value and
