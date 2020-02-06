@@ -5,6 +5,7 @@
 #include <iostream>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
+#include "Socket.h"
 #include "Renderer.h"
 #include "Detector.h"
 
@@ -20,6 +21,7 @@ private:
 
 	Detector detector;
 	Renderer renderer;
+	Socket socket;
 
 	int thresholdSlider;
 	const int thresholdSliderMaxValue = 300;

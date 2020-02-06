@@ -1,4 +1,5 @@
 #include "Application.h"
+#include <asio.hpp>
 
 bool Application::loadUserFile() {
 	std::cout << "Enter the filename or filepath of image you want to search: ";
@@ -50,6 +51,7 @@ void Application::run() {
 	std::vector<DetectedCard> cards = detector.findPlayingCards(image.clone(), threshold);
 	renderer.render(cards, image.clone());
 	renderer.renderOutline(cards, image.rows, image.cols);
+	socket.send(cards);
 }
 
 void Application::start() {
