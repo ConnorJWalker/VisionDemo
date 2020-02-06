@@ -1,6 +1,7 @@
 #include "Socket.h"
 
 Socket::Socket() : endpoint(asio::ip::address::from_string(address), port), socket(service) {
+	lastConnectionAttempt = std::chrono::steady_clock::now();
 	isConnected = connectToServer();
 }
 
@@ -33,6 +34,10 @@ void Socket::tryReconnect() {
 	auto timeBetweenLastConnect = std::chrono::duration_cast<std::chrono::seconds>(timeNow - lastConnectionAttempt).count();
 
 	if (timeBetweenLastConnect >= reconnectionDelay) {
+		if (socket.is_open()) {
+			socket.close();
+		}
+
 		isConnected = connectToServer();
 	}
 }
@@ -41,7 +46,7 @@ void Socket::tryReconnect() {
 void Socket::send(std::vector<DetectedCard> cards) {
 #ifndef NO_SOCKETS
 	if (!isConnected) {
-		tryReconnect();
+		tryReconnect(); 
 		return;
 	}
 
@@ -58,6 +63,7 @@ void Socket::send(std::vector<DetectedCard> cards) {
 		socket.write_some(asio::buffer(message.data(), message.size()));
 	}
 	catch(asio::system_error e) {
+		isConnected = false;
 		std::cout << "Could not send data to server: " << e.what() << std::endl;
 	}
 #endif // !NO_SOCKETS
