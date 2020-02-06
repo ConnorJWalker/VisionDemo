@@ -2,7 +2,14 @@
 
 Socket::Socket() : endpoint(asio::ip::address::from_string(address), port), socket(service) {
 #ifndef NO_SOCKETS
-	socket.connect(endpoint);
+	try {
+		socket.connect(endpoint);
+		isConnected = true;
+	}
+	catch (asio::system_error e) {
+		std::cout << "Error: " << e.what() << std::endl;
+		isConnected = false;
+	}
 #endif // !NO_SOCKETS
 }
 
@@ -14,6 +21,10 @@ Socket::~Socket() {
 
 void Socket::send(std::vector<DetectedCard> cards) {
 #ifndef NO_SOCKETS
+	if (!isConnected) {
+		return;
+	}
+
 	std::stringstream ss;
 	for (auto card : cards) {
 		ss << "Found Card:\n";

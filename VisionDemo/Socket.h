@@ -17,6 +17,7 @@ private:
 	asio::io_service service;
 	asio::ip::tcp::socket socket;
 	asio::ip::tcp::endpoint endpoint;
+	bool isConnected;
 #endif // !NO_SOCKETS
 
 // Methods
