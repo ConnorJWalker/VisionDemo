@@ -340,4 +340,5 @@ ASALocalRun/
 healthchecksdb
 
 # Other 3rd party libraries
-Dependencies/
+Dependencies/*
+!Dependencies/.gitkeep
