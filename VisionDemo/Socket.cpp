@@ -1,16 +1,7 @@
 #include "Socket.h"
 
 Socket::Socket() : endpoint(asio::ip::address::from_string(address), port), socket(service) {
-#ifndef NO_SOCKETS
-	try {
-		socket.connect(endpoint);
-		isConnected = true;
-	}
-	catch (asio::system_error e) {
-		std::cout << "Error: " << e.what() << std::endl;
-		isConnected = false;
-	}
-#endif // !NO_SOCKETS
+	isConnected = connectToServer();
 }
 
 Socket::~Socket() {
@@ -19,9 +10,38 @@ Socket::~Socket() {
 #endif // !NO_SOCKET
 }
 
+bool Socket::connectToServer() {
+#ifndef NO_SOCKETS
+	try {
+		socket.connect(endpoint);
+		return true;
+	}
+	catch (asio::system_error e) {
+		std::cout << "Error: " << e.what() << std::endl;
+		lastConnectionAttempt = std::chrono::steady_clock::now();
+
+		return false;
+	}
+#endif // !NO_SOCKETS
+
+	return false;
+}
+
+#ifndef NO_SOCKETS
+void Socket::tryReconnect() {
+	auto timeNow = std::chrono::steady_clock::now();
+	auto timeBetweenLastConnect = std::chrono::duration_cast<std::chrono::seconds>(timeNow - lastConnectionAttempt).count();
+
+	if (timeBetweenLastConnect >= reconnectionDelay) {
+		isConnected = connectToServer();
+	}
+}
+#endif // !NO_SOCKETS
+
 void Socket::send(std::vector<DetectedCard> cards) {
 #ifndef NO_SOCKETS
 	if (!isConnected) {
+		tryReconnect();
 		return;
 	}
 
