@@ -18,6 +18,23 @@ Feel free to make a pull request if a better method or a fix to any problems is 
 
 This is the branch that I will be using to test new methods of detecting cards. This was built from the master starting point
 
+**_This branch requires additional setup_**
+
+To use **with** sockets
+
+* Make sure you have python installed
+* Create and run [the server](https://gist.github.com/ConnorJWalker/d7d359c87a9fec459a5380a98f332cb1)
+* [Download asio](https://sourceforge.net/projects/asio/files/)
+* Copy and paste asio.hpp and asio folder from the asio include folder into this projects Dependencies folder
+* Add ASIO_STANDALONE to VisionDemo -> properties ->  C/C++ -> Preprocessor -> Preprocessor Definitions
+* Add $(SolutionDir)Dependencies to VisionDemo -> properties -> C/C++ -> General -> Additional Include Directories
+* Build and run the program
+
+To use **without** sockets
+
+* Add NO_SOCKETS to VisionDemo -> properties -> C/C++ -> Preprocessor -> Preprocessor Definitions
+* Build and run the program
+
 ## Getting Started
 
 - [Download](https://sourceforge.net/projects/opencvlibrary/files/opencv-win/) and [install](https://docs.opencv.org/master/d3/d52/tutorial_windows_install.html) OpenCV
