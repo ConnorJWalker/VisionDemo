@@ -1,12 +1,15 @@
 #include "Socket.h"
 
+#ifndef NO_SOCKETS
 Socket::Socket() : endpoint(asio::ip::address::from_string(address), port), socket(service) {
 	lastConnectionAttempt = std::chrono::steady_clock::now();
 	isConnected = connectToServer();
 }
+#endif // !NO_SOCKETS
+
 
 Socket::~Socket() {
-#ifndef NO_SOCKET
+#ifndef NO_SOCKETS
 	socket.close();
 #endif // !NO_SOCKET
 }

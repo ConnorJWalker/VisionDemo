@@ -1,5 +1,4 @@
 #include "Application.h"
-#include <asio.hpp>
 
 bool Application::loadUserFile() {
 	std::cout << "Enter the filename or filepath of image you want to search: ";
